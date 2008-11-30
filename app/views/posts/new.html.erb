@@ -1,0 +1,10 @@
+<h1>Новый суперпост в суперблоге</h1>
+<% form_for @post do |form| %>
+  Заголовок:
+  <%= form.text_field :title %><br />
+  Текст:<br />
+  <%= form.text_area :body, :rows => 6 %><br />
+  Дата:
+  <%= form.date_select :date, :order => [:day, :month, :year], :start_year => 2008, :end_year => 2011 %><br />
+  <%= form.submit 'Создать суперпост' %>
+<% end %>

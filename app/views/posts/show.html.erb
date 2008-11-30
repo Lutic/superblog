@@ -1,0 +1,22 @@
+<h1><%= @post.title %></h1>
+<%= @post.date %>
+<hr />
+<%= @post.body %>
+<hr />
+<h2>Комментарии</h2>
+<% @post.comments.each do |comment| %>
+<div>
+	Заголовок: <%= comment.title %><br />
+	Текст: <%= comment.body %><br />
+	Автор: <%= comment.name %><br />
+</div>
+<% end %>
+<h2>Новый комментарий</h2>
+<% form_for @comment, :comment, :url => post_comments_path(@post), :method => :post do |f| %>
+Заголовок: <%= f.text_field :title %><br />
+Текст:<br /> <%= f.text_area :body, :rows => 3 %><br />
+Автор: <%= f.text_field :name %><br />
+<%= submit_tag 'Написать' %>
+<% end %>
+<hr />
+<%= link_to 'На главную', posts_path %>

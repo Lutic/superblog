@@ -1,0 +1,18 @@
+<h1>Суперблог</h1>
+
+<%= link_to 'Новый суперпост', new_post_path %>
+<br /><br />
+<% @posts.each do |post| %>
+	<div>
+		<div><strong><%= post.title %></strong> (<%= post.date%>)</div>
+		<br />
+		<div><%= post.body %></div>
+	</div>
+	<div>
+		<%= link_to 'Комментарии', post_path(post) %>: <%= post.comments.count %>
+	</div>
+	<div>
+		<%= link_to 'Редактировать', edit_post_path(post) %> <%= link_to 'Удалить', post_path(post), :method => :delete, :confirm => 'Точно удалить? Это же был суперпост!' %> 
+	</div>
+	<hr />
+<% end %>
