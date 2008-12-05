@@ -11,12 +11,13 @@
 	Автор: <%= comment.name %><br />
 </div>
 <% end %>
+
 <h2>Новый комментарий</h2>
 <% form_for @comment, :comment, :url => post_comments_path(@post), :method => :post do |f| %>
-Заголовок: <%= f.text_field :title %><br />
-Текст:<br /> <%= f.text_area :body, :rows => 3 %><br />
-Автор: <%= f.text_field :name %><br />
-<%= submit_tag 'Написать' %>
+	Заголовок: <%= f.text_field :title %><br />
+	Текст:<br /> <%= f.text_area :body, :rows => 3 %><br />
+	Автор: <%= f.text_field :name %><br />
+	<%= f.submit 'Написать' %>
 <% end %>
 <hr />
 <%= link_to 'На главную', posts_path %>
