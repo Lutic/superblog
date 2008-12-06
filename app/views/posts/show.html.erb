@@ -1,3 +1,12 @@
+<% if flash[:notice] %>
+  <%= flash[:notice] %>
+<% end %>
+<% if flash[:error] %>
+<div style="border:1px solid red;width:80%;background-color:#c99">
+	<%= flash[:error]%>
+</div>
+<% end %>
+
 <h1><%= @post.title %></h1>
 <%= @post.date %>
 <hr />
@@ -5,18 +14,29 @@
 <hr />
 <h2>Комментарии</h2>
 <% @post.comments.each do |comment| %>
-<div>
-	Заголовок: <%= comment.title %><br />
-	Текст: <%= comment.body %><br />
-	Автор: <%= comment.name %><br />
-</div>
+	<div>
+		Заголовок: <%=h comment.title %><br />
+		Текст: <%= h comment.body %><br />
+		Автор: <%= if comment.user; comment.user.login; else h(comment.name) end; %><br />
+	</div>
+	<% if @current_user and @current_user.is_author %>
+		<div>
+			<%= link_to 'Удалить', post_comment_path(@post, comment), :method => :delete %> 
+		</div>
+	<% end %>
+	<hr />
 <% end %>
 
 <h2>Новый комментарий</h2>
 <% form_for @comment, :comment, :url => post_comments_path(@post), :method => :post do |f| %>
 	Заголовок: <%= f.text_field :title %><br />
 	Текст:<br /> <%= f.text_area :body, :rows => 3 %><br />
-	Автор: <%= f.text_field :name %><br />
+	<% if @current_user %>
+	Автор: <%= @current_user.login %>
+	<% else %>
+	Автор: <%= f.text_field :name %>
+	<% end %>
+	<br />
 	<%= f.submit 'Написать' %>
 <% end %>
 <hr />

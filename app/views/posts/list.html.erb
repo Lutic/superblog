@@ -1,6 +1,21 @@
 <h1>Суперблог</h1>
 
-<%= link_to 'Новый суперпост', new_post_path %>
+<% if flash[:notice] %>
+<div>
+	<%= flash[:notice]%>
+</div>
+<% end %>
+
+<% if not @current_user %>
+	<%= link_to 'Войти', login_users_path %>
+<% else %>
+    <%= link_to 'Выйти', logout_users_path, :method => :delete %>
+<% end %>
+
+<% if @current_user and @current_user.is_author %>
+	<%= link_to 'Новый суперпост', new_post_path %>
+<% end %>
+
 <br /><br />
 <% @posts.each do |post| %>
 	<div>
@@ -11,8 +26,10 @@
 	<div>
 		<%= link_to 'Комментарии', post_path(post) %>: <%= post.comments.count %>
 	</div>
-	<div>
-		<%= link_to 'Редактировать', edit_post_path(post) %> <%= link_to 'Удалить', post_path(post), :method => :delete, :confirm => 'Точно удалить? Это же был суперпост!' %> 
-	</div>
+	<% if @current_user and @current_user.is_author %>
+		<div>
+			<%= link_to 'Редактировать', edit_post_path(post) %> <%= link_to 'Удалить', post_path(post), :method => :delete, :confirm => 'Точно удалить? Это же был суперпост!' %> 
+		</div>
+	<% end %>
 	<hr />
 <% end %>
